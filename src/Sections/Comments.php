@@ -63,6 +63,22 @@ class Comments extends AbstractSection
         return new Comment($this->response($comment));
     }
 
+    public function storeDirect(string $content, int $bucketId, int $recordingId)
+    {
+        $comment = $this->client->post(
+            sprintf('buckets/%d/recordings/%d/comments.json', $bucketId, $recordingId),
+            [
+                'json' => [
+                    'content' => $content,
+                ],
+            ]
+        );
+
+        return new Comment($this->response($comment));
+    }
+
+
+
     /**
      * Update a comment.
      *
@@ -74,6 +90,20 @@ class Comments extends AbstractSection
     {
         $comment = $this->client->put(
             sprintf('buckets/%d/comments/%d.json', $this->bucket, $id),
+            [
+                'json' => [
+                    'content' => $content,
+                ],
+            ]
+        );
+
+        return  new Comment($this->response($comment));
+    }
+
+    public function updateDirect(int $bucketId, int $id, string $content)
+    {
+        $comment = $this->client->put(
+            sprintf('buckets/%d/comments/%d.json', $bucketId, $id),
             [
                 'json' => [
                     'content' => $content,

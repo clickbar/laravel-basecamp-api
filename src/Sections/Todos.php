@@ -69,10 +69,10 @@ class Todos extends AbstractSection
      * @param  int  $id
      * @return \Illuminate\Support\Collection
      */
-    public function show($id)
+    public function show(int $bucketId, int $id)
     {
         $todo = $this->client->get(
-            sprintf('buckets/%d/todos/%d.json', $this->bucket, $id)
+            sprintf('buckets/%d/todos/%d.json', $bucketId, $id)
         );
 
         return new Todo($this->response($todo));
